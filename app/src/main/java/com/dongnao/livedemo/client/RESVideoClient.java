@@ -14,6 +14,8 @@ import com.dongnao.livedemo.filter.hardvideofilter.BaseHardVideoFilter;
 import com.dongnao.livedemo.filter.softvideofilter.BaseSoftVideoFilter;
 import com.dongnao.livedemo.model.RESConfig;
 import com.dongnao.livedemo.model.RESCoreParameters;
+import com.dongnao.livedemo.model.RTMPConfig;
+import com.dongnao.livedemo.model.RTMPCoreParameters;
 import com.dongnao.livedemo.model.Size;
 import com.dongnao.livedemo.rtmp.RESFlvDataCollecter;
 import com.dongnao.livedemo.tools.BuffSizeCalculator;
@@ -24,7 +26,7 @@ import java.util.List;
 
 
 public class RESVideoClient {
-    RESCoreParameters resCoreParameters;
+    RTMPCoreParameters resCoreParameters;
     private final Object syncOp = new Object();
     private Camera camera;
     public SurfaceTexture camTexture;
@@ -34,7 +36,7 @@ public class RESVideoClient {
     private boolean isStreaming;
     private boolean isPreviewing;
 
-    public RESVideoClient(RESCoreParameters parameters) {
+    public RESVideoClient(RTMPCoreParameters parameters) {
         resCoreParameters = parameters;
         cameraNum = Camera.getNumberOfCameras();
         currentCameraIndex = Camera.CameraInfo.CAMERA_FACING_BACK;
@@ -42,7 +44,7 @@ public class RESVideoClient {
         isPreviewing = false;
     }
 
-    public boolean prepare(RESConfig resConfig) {
+    public boolean prepare(RTMPConfig resConfig) {
         synchronized (syncOp) {
             if ((cameraNum - 1) >= resConfig.getDefaultCamera()) {
                 currentCameraIndex = resConfig.getDefaultCamera();
@@ -319,7 +321,7 @@ public class RESVideoClient {
 
     public boolean reSetVideoSize(Size targetVideoSize) {
         synchronized (syncOp) {
-            RESCoreParameters newParameters = new RESCoreParameters();
+            RTMPCoreParameters newParameters = new RTMPCoreParameters();
             newParameters.isPortrait = resCoreParameters.isPortrait;
             newParameters.filterMode = resCoreParameters.filterMode;
             Camera.Parameters parameters = camera.getParameters();
@@ -418,8 +420,8 @@ public class RESVideoClient {
         }
     }
 
-    private void resoveResolution(RESCoreParameters resCoreParameters, Size targetVideoSize) {
-        if (resCoreParameters.filterMode == RESCoreParameters.FILTER_MODE_SOFT) {
+    private void resoveResolution(RTMPCoreParameters resCoreParameters, Size targetVideoSize) {
+        if (resCoreParameters.filterMode == RTMPCoreParameters.FILTER_MODE_SOFT) {
             if (resCoreParameters.isPortrait) {
                 resCoreParameters.videoHeight = resCoreParameters.previewVideoWidth;
                 resCoreParameters.videoWidth = resCoreParameters.previewVideoHeight;

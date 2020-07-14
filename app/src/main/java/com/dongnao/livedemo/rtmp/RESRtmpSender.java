@@ -10,6 +10,7 @@ import com.dongnao.livedemo.core.RESByteSpeedometer;
 import com.dongnao.livedemo.core.RESFrameRateMeter;
 import com.dongnao.livedemo.core.listener.RESConnectionListener;
 import com.dongnao.livedemo.model.RESCoreParameters;
+import com.dongnao.livedemo.model.RTMPCoreParameters;
 import com.dongnao.livedemo.tools.LogTools;
 public class RESRtmpSender {
     private static final int TIMEGRANULARITY = 3000;
@@ -19,7 +20,7 @@ public class RESRtmpSender {
     private HandlerThread workHandlerThread;
     private final Object syncOp = new Object();
 
-    public void prepare(RESCoreParameters coreParameters) {
+    public void prepare(RTMPCoreParameters coreParameters) {
         synchronized (syncOp) {
             workHandlerThread = new HandlerThread("RESRtmpSender,workHandlerThread");
             workHandlerThread.start();

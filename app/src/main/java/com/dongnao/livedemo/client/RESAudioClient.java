@@ -8,23 +8,25 @@ import com.dongnao.livedemo.core.RESSoftAudioCore;
 import com.dongnao.livedemo.filter.softaudiofilter.BaseSoftAudioFilter;
 import com.dongnao.livedemo.model.RESConfig;
 import com.dongnao.livedemo.model.RESCoreParameters;
+import com.dongnao.livedemo.model.RTMPConfig;
+import com.dongnao.livedemo.model.RTMPCoreParameters;
 import com.dongnao.livedemo.rtmp.RESFlvDataCollecter;
 import com.dongnao.livedemo.tools.LogTools;
 
 
 public class RESAudioClient {
-    RESCoreParameters resCoreParameters;
+    RTMPCoreParameters resCoreParameters;
     private final Object syncOp = new Object();
     private AudioRecordThread audioRecordThread;
     private AudioRecord audioRecord;
     private byte[] audioBuffer;
     private RESSoftAudioCore softAudioCore;
 
-    public RESAudioClient(RESCoreParameters parameters) {
+    public RESAudioClient(RTMPCoreParameters parameters) {
         resCoreParameters = parameters;
     }
 
-    public boolean prepare(RESConfig resConfig) {
+    public boolean prepare(RTMPConfig resConfig) {
         synchronized (syncOp) {
             resCoreParameters.audioBufferQueueNum = 5;
             softAudioCore = new RESSoftAudioCore(resCoreParameters);

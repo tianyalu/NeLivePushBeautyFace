@@ -17,6 +17,8 @@ import com.dongnao.livedemo.filter.softaudiofilter.BaseSoftAudioFilter;
 import com.dongnao.livedemo.filter.softvideofilter.BaseSoftVideoFilter;
 import com.dongnao.livedemo.model.RESConfig;
 import com.dongnao.livedemo.model.RESCoreParameters;
+import com.dongnao.livedemo.model.RTMPConfig;
+import com.dongnao.livedemo.model.RTMPCoreParameters;
 import com.dongnao.livedemo.model.Size;
 import com.dongnao.livedemo.rtmp.RESFlvData;
 import com.dongnao.livedemo.rtmp.RESFlvDataCollecter;
@@ -29,7 +31,7 @@ public class RESClient {
     private RESAudioClient audioClient;
     private final Object SyncOp;
     //parameters
-    RESCoreParameters coreParameters;
+    RTMPCoreParameters coreParameters;
     private RESRtmpSender rtmpSender;
     private RESFlvDataCollecter dataCollecter;
     //是否在推流
@@ -38,7 +40,7 @@ public class RESClient {
 
     public RESClient() {
         SyncOp = new Object();
-        coreParameters = new RESCoreParameters();
+        coreParameters = new RTMPCoreParameters();
         CallbackDelivery.i();
     }
 
@@ -54,7 +56,7 @@ public class RESClient {
      * @param resConfig config
      * @return true if prepare success
      */
-    public boolean prepare(RESConfig resConfig) {
+    public boolean prepare(RTMPConfig resConfig) {
         synchronized (SyncOp) {
             checkDirection(resConfig);
             coreParameters.filterMode = resConfig.getFilterMode();
@@ -153,7 +155,7 @@ public class RESClient {
     }
 
     /**
-     * call it AFTER {@link #prepare(RESConfig)}
+     * call it AFTER {@link #prepare(RTMPConfig)}
      *
      * @param surfaceTexture to rendering preview
      */
@@ -350,7 +352,7 @@ public class RESClient {
     }
 
     /**
-     * call it AFTER {@link #prepare(RESConfig)}
+     * call it AFTER {@link #prepare(RTMPConfig)}
      *
      * @param connectionListener
      */
@@ -459,7 +461,7 @@ public class RESClient {
     /**
      * =====================PRIVATE=================
      **/
-    private void checkDirection(RESConfig resConfig) {
+    private void checkDirection(RTMPConfig resConfig) {
         int frontFlag = resConfig.getFrontCameraDirectionMode();
         int backFlag = resConfig.getBackCameraDirectionMode();
         int fbit = 0;

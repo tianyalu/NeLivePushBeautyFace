@@ -1,5 +1,6 @@
 package com.dongnao.livedemo;
 
+import android.Manifest;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -7,11 +8,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dongnao.livedemo.core.listener.RESConnectionListener;
 import com.dongnao.livedemo.filter.hardvideofilter.BaseHardVideoFilter;
 import com.dongnao.livedemo.filter.hardvideofilter.HardVideoGroupFilter;
+import com.dongnao.livedemo.tools.PermissionUtils;
 import com.dongnao.livedemo.ws.StreamAVOption;
 import com.dongnao.livedemo.ws.StreamLiveCameraView;
 import com.dongnao.livedemo.ws.filter.hardfilter.GPUImageBeautyFilter;
@@ -23,6 +26,7 @@ import java.util.LinkedList;
 
 public class LiveActivity extends AppCompatActivity {
     private static final String TAG = LiveActivity.class.getSimpleName();
+    private String[] needPermissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private StreamLiveCameraView mLiveCameraView;
     private StreamAVOption streamAVOption;
     private String rtmpUrl = "rtmp://txy.live-send.acg.tv/live-txy/?streamname=live_345162489_81809986&key=03693092c85bd15a1d3fbbc227da0ad1";
@@ -36,9 +40,17 @@ public class LiveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live);
+
+        if (!PermissionUtils.checkPermissions(this, needPermissions)) {
+            PermissionUtils.requestPermissions(this, needPermissions);
+        }else {
+            init();
+        }
+    }
+
+    private void init() {
         initLiveConfig();
         mLiveUI = new LiveUI(this,mLiveCameraView,rtmpUrl);
-
     }
 
     /**
@@ -85,4 +97,15 @@ public class LiveActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == PermissionUtils.REQUEST_PERMISSIONS_CODE) {
+            if (!PermissionUtils.verifyPermissions(grantResults)) {
+                PermissionUtils.showMissingPermissionDialog(this);
+            } else {
+                init();
+            }
+        }
+    }
 }
