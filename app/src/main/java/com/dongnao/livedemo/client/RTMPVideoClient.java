@@ -113,6 +113,7 @@ public class RTMPVideoClient {
         camTexture = new SurfaceTexture(RESVideoCore.OVERWATCH_TEXTURE_ID);
         if (resCoreParameters.filterMode == RTMPCoreParameters.FILTER_MODE_SOFT) {
             camera.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
+                //data NV21的数据
                 @Override
                 public void onPreviewFrame(byte[] data, Camera camera) {
                     synchronized (syncOp) {
