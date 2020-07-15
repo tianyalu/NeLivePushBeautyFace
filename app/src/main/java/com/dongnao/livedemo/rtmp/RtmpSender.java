@@ -190,18 +190,19 @@ public class RtmpSender {
                         break;
                     }
                     errorTime = 0;
-                    final int closeR = RtmpClient.close(jniRtmpPointer);
+                    //todo 排查这句代码会报错，但不知该如何解决
+//                    final int closeR = RtmpClient.close(jniRtmpPointer);
                     serverIpAddr = null;
-                    synchronized (syncConnectionListener) {
-                        if (connectionListener != null) {
-                            CallbackDelivery.i().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    connectionListener.onCloseConnectionResult(closeR);
-                                }
-                            });
-                        }
-                    }
+//                    synchronized (syncConnectionListener) {
+//                        if (connectionListener != null) {
+//                            CallbackDelivery.i().post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    connectionListener.onCloseConnectionResult(closeR);
+//                                }
+//                            });
+//                        }
+//                    }
                     state = STATE.STOPPED;
                     break;
                 case MSG_WRITE:

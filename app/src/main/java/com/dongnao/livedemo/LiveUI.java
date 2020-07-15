@@ -55,6 +55,12 @@ public class LiveUI implements View.OnClickListener {
         btnStopRecord.setOnClickListener(this);
 
 
+        liveCameraView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                liveCameraView.swapCamera();
+            }
+        });
 
         imageView = (ImageView) activity.findViewById(R.id.iv_image);
         imageView.setOnClickListener(new View.OnClickListener() {

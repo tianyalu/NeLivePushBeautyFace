@@ -26,12 +26,15 @@ import java.util.LinkedList;
 
 public class LiveActivity extends AppCompatActivity {
     private static final String TAG = LiveActivity.class.getSimpleName();
-    private String[] needPermissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private String[] needPermissions = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO};
     private StreamLiveCameraView mLiveCameraView;
     private StreamAVOption streamAVOption;
 //    private String rtmpUrl = "rtmp://txy.live-send.acg.tv/live-txy/?streamname=live_345162489_81809986&key=03693092c85bd15a1d3fbbc227da0ad1";
     private String rtmpUrl = "rtmp://47.115.6.127/myapp/";
-   static {
+    static {
         System.loadLibrary("native-lib");
     }
 
@@ -58,7 +61,7 @@ public class LiveActivity extends AppCompatActivity {
      * 设置推流参数
      */
     public void initLiveConfig() {
-        mLiveCameraView = (StreamLiveCameraView) findViewById(R.id.stream_previewView);
+        mLiveCameraView = findViewById(R.id.stream_previewView);
 
         //参数配置 start
         streamAVOption = new StreamAVOption();
@@ -70,13 +73,6 @@ public class LiveActivity extends AppCompatActivity {
         LinkedList<BaseHardVideoFilter> files = new LinkedList<>();
         files.add(new GPUImageCompatibleFilter(new GPUImageBeautyFilter()));
         mLiveCameraView.setHardVideoFilter(new HardVideoGroupFilter(files));
-
-        mLiveCameraView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLiveCameraView.swapCamera();
-            }
-        });
     }
 
     RESConnectionListener resConnectionListener = new RESConnectionListener() {

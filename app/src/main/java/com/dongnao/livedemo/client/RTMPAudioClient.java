@@ -61,6 +61,7 @@ public class RTMPAudioClient {
                 try {
                     audioRecordThread.join();
                 } catch (InterruptedException ignored) {
+                    ignored.printStackTrace();
                 }
                 softAudioCore.stop();
                 audioRecordThread = null;
